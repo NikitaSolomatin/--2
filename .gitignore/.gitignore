@@ -1,0 +1,277 @@
+#include <iostream>
+#include <string>
+#include <conio.h>
+
+using namespace std;
+
+int i;
+int num;
+int l;
+bool flag;
+string line;
+
+void read()
+{
+	if (flag) i++;
+}
+
+bool F1()
+{
+	l = line.find('I', i);
+	if (l == i)
+	{
+		++i;
+		num += 1;
+		return true;
+	}
+	else 
+		return false;
+}
+
+bool F0_3()
+{
+	read();
+	l = line.find('I', i);
+	if (l == i)
+	{
+		++i;
+		flag = F1();
+		flag = F1();
+		num += 1;
+		return true;
+	}
+	else 
+		return false;
+}
+
+bool F4_8()
+{
+	read();
+	l = line.find("IV", i);
+	if (l == i)
+	{
+		++i;
+		num += 2;
+		return true;
+	}
+	else
+	{
+		l = line.find('V', i);
+		if (l == i)
+		{
+			num += 1;
+			F0_3();
+		}
+		else
+			return false;
+	}
+}
+
+bool F10()
+{
+	l = line.find('X', i);
+	if (l == i)
+	{
+		++i;
+		num += 1;
+		return true;
+	}
+	else 
+		return false;
+}
+
+bool F10__30()
+{
+	l = line.find('X', i);
+	if (l == i)
+	{
+		++i;
+		F10();
+		F10();
+		num += 1;
+		return true;
+	}
+	else 
+		return false;
+}
+
+bool F9_30()
+{
+	read();
+	l = line.find("IX", i);
+	if (l == i)
+	{
+		++i;
+		num += 2;
+		return true;
+	}
+	else if (F10__30() == true) return true;
+	else 
+		return false;
+}
+
+bool F40_80()
+{
+	read();
+	l = line.find("XL", i);
+	if (l == i)
+	{
+		++i;
+		num += 2;
+		return true;
+	}
+	else
+	{
+		l = line.find('L', i);
+		if (l == i)
+		{
+			num += 1;
+			F10__30();
+		}
+		else
+			return false;
+	}
+}
+
+bool F100()
+{
+	l = line.find('C', i);
+	if (l == i)
+	{
+		++i;
+		num += 1;
+		return true;
+	}
+	else 
+		return false;
+}
+
+bool F100__300()
+{
+	l = line.find('C', i);
+	if (l == i)
+	{
+		++i;
+		F100();
+		F100();
+		num += 1;
+		return true;
+	}
+	else 
+		return false;
+}
+
+bool F90_300()
+{
+	read();
+	l = line.find("XC", i);
+	if (l == i)
+	{
+		++i;
+		num += 2;
+		return true;
+	}
+	else if (F100__300() == true) return true;
+	else 
+		return false;
+}
+
+bool F400_800()
+{
+	read();
+	l = line.find("CD", i);
+	if (l == i)
+	{
+		++i;
+		num += 2;
+		return true;
+	}
+	else
+	{
+		l = line.find('D', i);
+		if (l == i)
+		{
+			num += 1;
+			F100__300();
+		}
+		else
+			return false;
+	}
+}
+
+bool F1000()
+{
+	l = line.find('M', i);
+	if (l == i)
+	{
+		++i;
+		num += 1;
+		return true;
+	}
+	else 
+		return false;
+}
+
+bool F1000__3000()
+{
+	l = line.find('M', i);
+	if (l == i)
+	{
+		++i;
+		F1000();
+		F1000();
+		num += 1;
+		return true;
+	}
+	else 
+		return false;
+}
+
+bool F900_3000()
+{
+	read();
+
+	l = line.find("CM", i);
+	if (l == i)
+	{
+		++i;
+		num += 2;
+		return true;
+	}
+	else if (F1000__3000() == true) return true;
+	else 
+		return false;
+}
+
+int main()
+{
+	setlocale(0, "");
+	string line2;
+	do
+	{
+		system("cls");
+
+		cout << "Введите число в Римской системе: ";
+
+		flag = true;
+		getline(cin, line);
+		i = -1;
+
+		flag = F900_3000(); flag = F900_3000();
+		flag = F400_800();
+		flag = F90_300(); flag = F90_300();
+		flag = F40_80();
+		flag = F9_30(); flag = F9_30();
+		flag = F4_8();
+		flag = F0_3();
+
+		if (num == line.size())
+			cout << "Принадлежит" << endl;
+		else
+			cout << "Не принадлежит" << endl;
+
+		cout << "Для продолжения работы нажмите любую клавишу, для выхода - Enter.";
+	} while (_getch() != '\r');
+
+	return 0;
+}
